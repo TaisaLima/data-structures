@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+
 typedef struct Node {
     char data;
     struct Node *next;
@@ -12,6 +13,7 @@ typedef struct {
 } Stack;
 
 void push(Stack *s, char c) {
+
     Node *new_node = (Node *) malloc(sizeof(Node));
     new_node->data = c;
     new_node->next = s->top;
@@ -30,93 +32,118 @@ char pop(Stack *s) {
     return c;
 }
 
-char peek(Stack *s) {
-    if (s->top == NULL) {
-        printf("Erro: Pilha vazia\n");
-        exit(1);
-    }
-    return s->top->data;
-}
-
-int is_empty(Stack *s) {
-    return (s->top == NULL);
-}
-
-  void display1(Stack *s)
+ void display1(Stack *s)
     {
-         struct Node *p;
-         p= s->top;
-         while(p!=NULL)
-         {
-             printf("%d",(p->data)-48);
-             p=p->next;
-         }
+        struct Node *p;
+        p= s->top;
+
+        int i=0;
+        int array[1002];
+        while(p!=NULL)
+        {
+            array[i]=((p->data)-48);
+            p=p->next;
+            i++;
+        }
+
+        for (i;i>0;i--)
+        {
+            printf("%d",array[i-1]);
+            
+        }
+
     }
 
   void display2(Stack *s)
     {
-         struct Node *p;
-         p= s->top;
+        struct Node *p;
+        p= s->top;
+        int i=0;
+        int array[1002];
          
          printf(".");
          while(p!=NULL)
          {
-             printf("%d",(p->data)-48);
+             array[i]=((p->data)-48);
              p=p->next;
+             i++;
          }
-         printf("\n");
+         
+         for (i;i>0;i--)
+         {
+             printf("%d",array[i-1]);
+             
+         }
+        printf("\n");
+
     }
 
+
 int main() {
-    char n_str[50];
+
+    char num[50];
     int m, k, w, len_int, len_frac, i, j;
     Stack int_stack, frac_stack;
     int_stack.top = NULL;
     frac_stack.top = NULL;
-    scanf("%s %d %d", n_str, &k, &w);
+
+
+
+    printf("Insira seu float:  ");
+    scanf ("%s" , num);
+    printf("\nQuantos digitos deseja cortar de cada lado?   ");
+    scanf ("%d %d", &w, &k);
+
 
     // Separa a parte inteira da parte fracionária
-    char *int_part = strtok(n_str, ".");
+    char *int_part = strtok(num, ".");
     char *frac_part = strtok(NULL, ".");
     len_int = strlen(int_part);
     len_frac = strlen(frac_part);
 
     // Insere os dígitos da parte inteira na pilha
     for (i = 0; i < len_int; i++) {
-        push(&int_stack, int_part[i]);
+        push(&int_stack, int_part[i]); 
     }
     // Insere os dígitos da parte fracionária na pilha
-    for (i = 0; i < len_frac; i++) {
-        push(&frac_stack, frac_part[i]);
+    for (m = 0; m < len_frac; m++) {
+        push(&frac_stack, frac_part[m]);
     }
 
-    // Remove k dígitos da parte inteira
-    for (i = 0; i < k; i++) {
-        Node *prev = NULL;
-        Node *curr = int_stack.top;
-        while (curr != NULL && curr->next != NULL) {
-            if (curr->data < curr->next->data) {
+    //tratamento de erro
+    if (i <w || m <k) {printf("\nERRO: caso de teste invalido\n"); return 0;}
+
+    // Remove w dígitos da parte fracionária
+        for (i = 0; i < k; i++) {
+            Node *prev = NULL;
+            Node *curr = int_stack.top;
+            while (curr != NULL && curr->next != NULL) {
+                if (curr->data < curr->next->data) {
+                    if (prev == NULL) {
+                        int_stack.top = curr->next;
+                    } else {
+                        prev->next = curr->next;
+                    }
+                    free(curr);
+                    break; 
+                }
+                prev = curr;
+                curr = curr->next;
+            }
+            if (curr == NULL || curr->next == NULL) {
                 if (prev == NULL) {
-                    int_stack.top = curr->next;
+                    int_stack.top = NULL;
                 } else {
-                    prev->next = curr->next;
+                    prev->next = NULL;
                 }
                 free(curr);
-                break; 
+
+
             }
-            prev = curr;
-            curr = curr->next;
+
+         printf("ok ok");
         }
-        if (curr == NULL || curr->next == NULL) {
-            if (prev == NULL) {
-                int_stack.top = NULL;
-            } else {
-                prev->next = NULL;
-            }
-            free(curr);
-        }
-    }
-    // Remove w dígitos da parte fracionária
+    // Remove k dígitos da parte fracionária
        for (i = 0; i < k; i++) {
         Node *prev = NULL;
         Node *curr = frac_stack.top;
@@ -142,12 +169,12 @@ int main() {
             free(curr);
         }
     }
-
     
-
+    //mostrar resultado na tela
     display1 (&int_stack);
     display2 (&frac_stack);
 
+    
 
     return 0;
-}
+} 
