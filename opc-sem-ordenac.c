@@ -3,6 +3,7 @@
 #include <string.h>
 
 
+void PRINTARRAY(char array[], int length){for(int i = 0; i < length; i++){printf("%d ", array[i]);}}
 typedef struct Node {
     char data;
     struct Node *next;
@@ -78,14 +79,34 @@ char pop(Stack *s) {
 
     }
 
+void swap(char *xp, char *yp)
+{
+    char temp = *xp;
+    *xp = *yp;
+    *yp = temp;
+}
+ 
+int thelastofus(char arr[], int n)
+{
+    int i, j;
+    for (i = 0; i < n - 1; i++)
+ 
+        // Last i elements are already in place
+        for (j = 0; j < n - i - 1; j++)
+            if (arr[j] > arr[j + 1])
+                swap(&arr[j], &arr[j + 1]);
+
+    return arr[0];
+}
 
 int main() {
 
     char num[50];
     int m, k, w, len_int, len_frac, i, j;
-    Stack int_stack, frac_stack;
+    Stack int_stack, frac_stack, aux;
     int_stack.top = NULL;
     frac_stack.top = NULL;
+    aux.top=NULL;
 
 
 
@@ -102,8 +123,8 @@ int main() {
     len_frac = strlen(frac_part);
 
     // Insere os dígitos da parte inteira na pilha
-    for (i = 0; i < len_int; i++) {
-        push(&int_stack, int_part[i]); 
+    for (j = 0; j < len_int; j++) {
+        push(&int_stack, int_part[j]); 
     }
     // Insere os dígitos da parte fracionária na pilha
     for (m = 0; m < len_frac; m++) {
@@ -111,7 +132,8 @@ int main() {
     }
 
     //tratamento de erro
-    if (i <w || m <k) {printf("\nERRO: caso de teste invalido\n"); return 0;}
+    if (j <w || m <k) {printf("\nERRO: caso de teste invalido\n"); return 0;}
+    
 
     // Remove w dígitos da parte fracionária
         for (i = 0; i < k; i++) {
@@ -119,7 +141,7 @@ int main() {
             Node *curr = int_stack.top;
             while (curr != NULL && curr->next != NULL) {
                 if (curr->data < curr->next->data) {
-                    if (prev == NULL) {
+                    if ((prev == NULL)) {
                         int_stack.top = curr->next;
                     } else {
                         prev->next = curr->next;
@@ -137,11 +159,8 @@ int main() {
                     prev->next = NULL;
                 }
                 free(curr);
-
-
             }
 
-         printf("ok ok");
         }
     // Remove k dígitos da parte fracionária
        for (i = 0; i < k; i++) {
@@ -169,12 +188,22 @@ int main() {
             free(curr);
         }
     }
-    
+
+
+
     //mostrar resultado na tela
-    display1 (&int_stack);
-    display2 (&frac_stack);
+    if ( j == w) printf("popo");
+    else display1 (&int_stack);
+
+    if (k==m) return 0;
+    else display2 (&frac_stack);
 
     
 
     return 0;
 } 
+
+
+
+
+
