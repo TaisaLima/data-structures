@@ -135,8 +135,8 @@ int main() {
     if (j <w || m <k) {printf("\nERRO: caso de teste invalido\n"); return 0;}
     
 
-    // Remove w dígitos da parte fracionária
-        for (i = 0; i < k; i++) {
+    // Remove w dígitos da parte inteira
+        for (i = 0; i < w; i++) {
             Node *prev = NULL;
             Node *curr = int_stack.top;
             while (curr != NULL && curr->next != NULL) {
