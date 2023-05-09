@@ -191,12 +191,14 @@ int main() {
 
 
 
+
     //mostrar resultado na tela
-    if ( j == w) printf("popo");
+    if ( j == w) printf("0");
     else display1 (&int_stack);
 
-    if (k==m) return 0;
+    if (k==m) printf("\n");
     else display2 (&frac_stack);
+
 
     
 
