@@ -3,6 +3,7 @@
 #include<stdlib.h>
 #include <time.h>
 #define MAX 100
+
 int pacido=0,pacisa=0,pacisexta=0,paciqui=0, paciqua=0, pacite=0, pacise=0;
 
 typedef struct {
@@ -35,10 +36,13 @@ void enqueue(PriorityQueue* segunda, PriorityQueue* terca, PriorityQueue* quarta
     if (data == 6) { queue = sabado;    pacisa++;   rodizio= pacisa;} 
     if (data == 7) { queue = domingo;   pacido++;   rodizio= pacido;} 
 
+    
+
     QueueItem item;
     strcpy(item.nome, nome);
     item.prioridade = prioridade;
     int i = queue->size - 1;
+    if (rodizio %5 == 0)  {i = queue->size - 5;}
 
     while ((i >= 0 && queue->items[i].prioridade > prioridade)) {
         queue->items[i + 1] = queue->items[i];
@@ -54,7 +58,7 @@ void enqueue(PriorityQueue* segunda, PriorityQueue* terca, PriorityQueue* quarta
 
 char* dequeue(PriorityQueue* queue) {
 
-    
+
     if (queue->size == 0) {
         printf("Não há ninguém na fila\n");
         return NULL;
@@ -97,6 +101,7 @@ int disponibilidade(PriorityQueue* segunda, PriorityQueue* terca, PriorityQueue*
     if (data == 6) {if (sabado->size == sabado->capacity) return 0;}
     if (data == 7) {if (domingo ->size == domingo->capacity) return 0;}    
 
+
     return 1;
 }
 
@@ -131,6 +136,7 @@ int main(){
     int capacidade, escolha=0,prioridade, ind=1, opc=0, vagas=2;
     char nome[100];
     char resposta;
+  
    
     //criar as filas com 72 lugares pois é estimado que o hospital funcione 24 horas e atenda cada paciente em 20 min
     inicializarFila(&segunda, 72); inicializarFila(&terca, 72); inicializarFila(&quarta, 72); inicializarFila(&quinta, 72);
