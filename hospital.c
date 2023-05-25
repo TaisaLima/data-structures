@@ -3,6 +3,7 @@
 #include<stdlib.h>
 #include <time.h>
 #define MAX 100
+int pacido=0,pacisa=0,pacisexta=0,paciqui=0, paciqua=0, pacite=0, pacise=0;
 
 typedef struct {
     char nome[MAX];
@@ -22,19 +23,24 @@ void inicializarFila(PriorityQueue* queue, int capacity) {
 
 }
 
-void enqueue(PriorityQueue* queue, char* nome, int prioridade) {
+void enqueue(PriorityQueue* segunda, PriorityQueue* terca, PriorityQueue* quarta, PriorityQueue* quinta, PriorityQueue* sexta,  PriorityQueue* sabado, PriorityQueue* domingo, char* nome, int prioridade, int data) {
    
-        if (queue->size == queue->capacity) {
-        printf("Não conseguimos atender mais ninguém\n");
-       return;
-        }
+   PriorityQueue* queue; int rodizio;
    
+    if (data == 1) { queue = segunda;   pacise++;   rodizio = pacise;} 
+    if (data == 2) { queue = terca;     pacite++;   rodizio= pacite;} 
+    if (data == 3) { queue = quarta;    paciqua++;  rodizio= paciqua;} 
+    if (data == 4) { queue = quinta;    paciqui++;  rodizio= paciqui;} 
+    if (data == 5) { queue = sexta;     pacisexta++;rodizio= pacisexta;} 
+    if (data == 6) { queue = sabado;    pacisa++;   rodizio= pacisa;} 
+    if (data == 7) { queue = domingo;   pacido++;   rodizio= pacido;} 
+
     QueueItem item;
     strcpy(item.nome, nome);
     item.prioridade = prioridade;
-
     int i = queue->size - 1;
-    while (i >= 0 && queue->items[i].prioridade > prioridade) {
+
+    while ((i >= 0 && queue->items[i].prioridade > prioridade)) {
         queue->items[i + 1] = queue->items[i];
         i--;
     }
@@ -47,6 +53,8 @@ void enqueue(PriorityQueue* queue, char* nome, int prioridade) {
 }
 
 char* dequeue(PriorityQueue* queue) {
+
+    
     if (queue->size == 0) {
         printf("Não há ninguém na fila\n");
         return NULL;
@@ -57,24 +65,19 @@ char* dequeue(PriorityQueue* queue) {
     return nome;
 }
 
-
-void printarFila(PriorityQueue* queue) {
+void printarFila(PriorityQueue* queue, int quant) {
     printf("Ordem de chamada: \n");
-    printf("---------------\n");
-    printf("\n\n");
+    printf("---------------\n\n");
 
-   
-    for (int i = 0; i < 72; i++) {
+    if (quant ==0 ) printf("\nFila vazia!\n");
+
+    for (int i = 0; i < quant; i++) {
         printf("Paciente: %s, Prioridade: %d, Tempo de espera: %d min \n", queue->items[i].nome, queue->items[i].prioridade, i * 30 );
     }
-
-
 }
 
-
 void diaSemana(){
-
-    printf("1) Segunda\n");
+    printf("\n1) Segunda\n");
     printf("2) Terça\n");
     printf("3) Quarta\n");
     printf("4) Quinta\n");
@@ -84,139 +87,57 @@ void diaSemana(){
     printf("Digite o número correspondente:  ");
 }
  
-void delay(int number_of_seconds)
-{
-    // Converting time into milli_seconds
-    int milli_seconds = 1000 * number_of_seconds;
- 
-    // Storing start time
-    clock_t start_time = clock();
- 
-    // looping till required time is not achieved
-    while (clock() < start_time + milli_seconds)
-        ;
-}
+int disponibilidade(PriorityQueue* segunda, PriorityQueue* terca, PriorityQueue* quarta, PriorityQueue* quinta, PriorityQueue* sexta,  PriorityQueue* sabado, PriorityQueue* domingo, int data){
 
-int disponibilidade(PriorityQueue* queue){
-
-    if (queue->size == queue->capacity) {
-    return 0;
-    }
+    if (data == 1) {if (segunda->size == segunda->capacity) return 0;} 
+    if (data == 2) {if (terca->size == terca->capacity) return 0;}
+    if (data == 3) {if (quarta->size == quarta->capacity) return 0;}  
+    if (data == 4) {if (quinta->size == quinta->capacity) return 0;}
+    if (data == 5) {if (sexta->size == sexta->capacity) return 0;}
+    if (data == 6) {if (sabado->size == sabado->capacity) return 0;}
+    if (data == 7) {if (domingo ->size == domingo->capacity) return 0;}    
 
     return 1;
 }
 
-void cadastro(PriorityQueue* queue, int ag){
+void cadastro(PriorityQueue* segunda, PriorityQueue* terca, PriorityQueue* quarta, PriorityQueue* quinta, PriorityQueue* sexta,  PriorityQueue* sabado, PriorityQueue* domingo, int data, int ag){
    
-        char nome[100]; int prioridade, ind=1;
-        printf("insira o nome do paciente:  ");
-        scanf("%s", nome);
+    char nome[100]; int prioridade, ind=1;
+    printf("insira o nome do paciente:  ");
+    scanf("%s", nome);
+    if (strcmp(nome, "x") == 0) return;
 
-        if (strcmp(nome, "f") == 0) {
-            dequeue(queue);
-        }
-        if (strcmp(nome, "x") == 0) {
-            return;
-        }
+    if (ag != 3){
+    printf("insira a idade: ");
+    scanf("%d", &prioridade);
+    
+        if ((prioridade <= 5) || (prioridade >= 80)) prioridade = 0;
+        if ((prioridade > 5) && (prioridade <= 16)) prioridade = 1;
+        if ((prioridade < 80) && (prioridade > 16)) prioridade = 2;
+        
+    getchar();
+    }
+    
+    if (ag == 3) prioridade = 3;
+    if (prioridade > 3){printf ("ERRO! \n"); return;}
 
-        if (ag != 3){
-        printf("insira a idade: ");
-        scanf("%d", &prioridade);
-       
-            if ((prioridade <= 5) || (prioridade >= 80)) prioridade = 0;
-           
-            if ((prioridade > 5) && (prioridade <= 16)) prioridade = 1;
-           
-            if ((prioridade < 80) && (prioridade > 16)) prioridade = 2;
-           
-           
-        getchar();
-        }
-       
-        if (ag== 3) prioridade = 3;
-       
-        if (prioridade > 3){printf ("ERRO! \n"); return;}
-
-        enqueue(queue, nome, prioridade);
-        printarFila(queue);
-
-        if (ind == 72) {
-            printf("se quiser encerrar pressione 'x': ");
-            scanf("%s", nome);
-             if (strcmp(nome, "x") == 0) {
-            return;
-            }
-            else { printf("\nDesculpe, não será possivel atender mais ninguém.\n");return;}
-        }
-
-        ind++;
+    enqueue(segunda, terca, quarta, quinta, sexta, sabado, domingo, nome, prioridade, data);
 
 }
 
-
-int agendamento(PriorityQueue* segunda, PriorityQueue* terca, PriorityQueue* quarta, PriorityQueue* quinta, PriorityQueue* sexta,  PriorityQueue* sabado, PriorityQueue* domingo){
-
-    int data, vagas;char resposta;
-
-    system("clear");    
-    printf("--------------  MENU DE AGENDAMENTO  -------------- \n\n");
-    printf("Para qual dia da semana deseja agendar? \n\n");
-    diaSemana();
-    scanf("%d", &data);
-    printf ("\nAguarde enquanto checamos se há vagas disponiveis na data\n\n");    
-    delay(1000);
-   
-    switch (data){
-        case 1: vagas =disponibilidade(segunda);
-        case 2: vagas =disponibilidade(terca);
-        case 3: vagas =disponibilidade(quarta);  
-        case 4: vagas =disponibilidade(quinta);
-        case 5: vagas =disponibilidade(sexta);
-        case 6: vagas =disponibilidade(sabado);    
-        case 7: vagas =disponibilidade(domingo);
-    }
-
-    if (vagas == 0) {
-        printf ("Não há mais vaga para esse dia, gostaria de marcar em outra data?('S' ou 'N') ");
-        scanf (" %c", &resposta);
-        if (resposta == ('S' || 's')) return agendamento( segunda, terca, quarta, quinta, sexta, sabado, domingo);
-        if (resposta == ('N' || 'n')) {printf("Sentimos muito pelo transtorno. Retornaremos ao menu principal."); delay(1000); return 0;}
-    }
-
-
-    switch (data){
-        case 1: cadastro(segunda, 3); return 0;
-        case 2: cadastro(terca, 3) ;return 0;
-        case 3: cadastro(quarta, 3);return 0;  
-        case 4: cadastro(quinta, 3);return 0;
-        case 5: cadastro(sexta, 3);return 0;
-        case 6: cadastro(sabado, 3);return 0;    
-        case 7: cadastro(domingo, 3);return 0;
-    }
-
-    return 0;
-
-}
-
-
-int main() {
+int main(){
 
     PriorityQueue segunda, terca, quarta, quinta, sexta, sabado, domingo;
-   
-    inicializarFila(&segunda, 72);
-    inicializarFila(&terca, 72);
-    inicializarFila(&quarta, 72);
-    inicializarFila(&quinta, 72);
-    inicializarFila(&sexta, 72);
-    inicializarFila(&sabado, 72);
-    inicializarFila(&domingo, 72);
-
-   
+    int capacidade, escolha=0,prioridade, ind=1, opc=0, vagas=2;
     char nome[100];
-    int capacidade, escolha=0,prioridade, ind=1, opc=0;
+    char resposta;
    
+    //criar as filas com 72 lugares pois é estimado que o hospital funcione 24 horas e atenda cada paciente em 20 min
+    inicializarFila(&segunda, 72); inicializarFila(&terca, 72); inicializarFila(&quarta, 72); inicializarFila(&quinta, 72);
+    inicializarFila(&sexta, 72);inicializarFila(&sabado, 72); inicializarFila(&domingo, 72);
+
+    // loop para sempre retornar ao menu principal ao término de uma operação
     while (1){
-       
        
     system("clear");
     printf("\n\nBem-vindo ao hospital. Em quê podemos ajudar? \n\n");
@@ -227,62 +148,108 @@ int main() {
     printf("5) SAIR\n\n");
     printf("Digite o número correspondente ao seu problema:  ");
 
-     scanf("%d", &escolha);
+    
+    scanf("%d", &escolha); 
+    if ((opc > 1) || (opc > 5)) {printf("Erro! \n"); return 0;}
 
+    //parte funcional do menu
     switch(escolha){
+            //agendamento
+            case 1: 
+            
+                printf("\n\n--------------  MENU DE AGENDAMENTO  -------------- \n\n");
+                printf("Para qual dia da semana deseja agendar? \n\n");
+                //funçao utilizada para printar dias da semana 
+                diaSemana();
+                scanf("%d", &opc);getchar();
+                
+                //tratamento de erro 
+                if ((opc != 1)&(opc != 2)&(opc != 3)&(opc != 4)&(opc != 5)&(opc != 6)&(opc != 7)) break;
 
-        case 1:
-            agendamento(&segunda, &terca, &quarta, &quinta, &sexta, &sabado, &domingo);
+                printf ("\nAguarde enquanto checamos se há vagas disponiveis na data\n\n");    
+                vagas = disponibilidade(&segunda, &terca, &quarta, &quinta, &sexta, &sabado, &domingo, opc);
+               
+                    if (vagas == 0) {
+                        printf ("Não há mais vaga para esse dia, gostaria de outra data?('S' ou 'N') ");
+                        scanf (" %c", &resposta);
+                        if (resposta == ('S' || 's')) break;
+                        if (resposta == ('N' || 'n')) {printf("Sentimos muito pelo transtorno. Retornaremos ao menu principal."); getchar();break;}
+                    }
+
+                cadastro(&segunda, &terca, &quarta, &quinta, &sexta, &sabado, &domingo,opc, 3);
+
             break;
-        case 2:
-            diaSemana();
-            scanf ("%d", &opc);
 
-                if (opc == 1) cadastro(&segunda,0);
-                if (opc == 2) cadastro(&terca,0);
-                if (opc == 3) cadastro(&quarta,0);  
-                if (opc == 4) cadastro(&quinta,0);
-                if (opc == 5) cadastro(&sexta,0);
-                if (opc == 6) cadastro(&sabado,0);    
-                if (opc == 7) cadastro(&domingo,0);
+            case 2:
+
+                printf("\n\n--------------  MENU DA EMERGENCIA  -------------- \n\n");
+                printf("Para qual dia da semana deseja agendar? \n\n");
+                diaSemana();
+                
+                scanf ("%d", &opc);getchar();
+
+                if ((opc != 1)&&(opc != 2)&&(opc != 3)&&(opc != 4)&&(opc != 5)&&(opc != 6)&&(opc != 7)) break;
+
+                //verifica se é possivel fazer a opraçao no dia escolhido
+                printf ("\nAguarde enquanto checamos se há vagas disponiveis na data\n\n");    
+                vagas = disponibilidade(&segunda, &terca, &quarta, &quinta, &sexta, &sabado, &domingo, opc);
+                //tratamento de erro
+                if (vagas == 0) {
+                    printf ("Não há mais vaga para esse dia, gostaria de outra data?('S' ou 'N') ");
+                    scanf (" %c", &resposta);
+                    if (resposta == ('S' || 's')) break;
+                    if (resposta == ('N' || 'n')) {printf("Sentimos muito pelo transtorno. Retornaremos ao menu principal.");getchar(); break;}
+                }
+                
+                cadastro(&segunda, &terca, &quarta, &quinta, &sexta, &sabado, &domingo,opc, 0);
+                        
+            break;
+            
+            case 3:
+            
+                printf("\n\n--------------  MENU DA DESISTENCIA -------------- \n\n");
+                printf("Qual a data de desistência? \n\n");
+                diaSemana();
+                scanf ("%d", &opc);getchar();
+                
+                if ((opc != 1)&&(opc != 2)&&(opc != 3)&&(opc != 4)&&(opc != 5)&&(opc != 6)&&(opc != 7)) break;
+
+                if (opc == 1) {dequeue(&segunda);pacise--;}
+                if (opc == 2) {dequeue(&terca);pacite--;}
+                if (opc == 3) {dequeue(&quarta);paciqua--;}  
+                if (opc == 4) {dequeue(&quinta);paciqui--;}
+                if (opc == 5) {dequeue(&sexta);pacisexta--;}
+                if (opc == 6) {dequeue(&sabado);pacisa--;}    
+                if (opc == 7) {dequeue(&domingo);pacido--;}
+                
+            break;
+        
+            case 4:
+
+                diaSemana();
+                scanf ("%d", &opc);getchar();
+                if ((opc != 1)&&(opc != 2)&&(opc != 3)&&(opc != 4)&&(opc != 5)&&(opc != 6)&&(opc != 7)) break;
+    
+
+                if (opc == 1) printarFila(&segunda , pacise);
+                if (opc == 2) printarFila(&terca , pacite);
+                if (opc == 3) printarFila(&quarta , paciqua);  
+                if (opc == 4) printarFila(&quinta , paciqui);
+                if (opc == 5) printarFila(&sexta , pacisexta);
+                if (opc == 6) printarFila(&sabado , pacisa);    
+                if (opc == 7) printarFila(&domingo , pacido);
                     
-        break;
-         
-        case 3:
-            diaSemana();
-            scanf ("%d", &opc);
-            switch (opc){
-                    case 1: dequeue(&segunda);
-                    case 2: dequeue(&terca);
-                    case 3: dequeue(&quarta);  
-                    case 4: dequeue(&quinta);
-                    case 5: dequeue(&sexta);
-                    case 6: dequeue(&sabado);    
-                    case 7: dequeue(&domingo);
-                    }
-       break;
-       
-        case 4:
-            diaSemana();
-            scanf ("%d", &opc);
-                    switch (opc){
-                    case 1: printarFila(&segunda);
-                    case 2: printarFila(&terca);
-                    case 3: printarFila(&quarta);  
-                    case 4: printarFila(&quinta);
-                    case 5: printarFila(&sexta);
-                    case 6: printarFila(&sabado);    
-                    case 7: printarFila(&domingo);
-                    }
-                   
-            printf("\nPressione enter para retornar ao menu principal\n");
-            getchar();getchar();
-                   
-            break;
-            case 5: return 0;
-     }
-     
+                    
+                printf("\nPressione enter para retornar ao menu principal\n");
+                getchar();
+                    
+                break;
+
+        
+            case 5: 
+            return 0;
+
+        }
     }
- 
     return 0;
 }
