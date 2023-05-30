@@ -63,7 +63,7 @@ Elevador* get_elevador(Tunel* tunel, int andar) {
     return NULL;
 }
 
-int conflito(Tunel* tunel, int andar, Elevador* e) {
+int colisao(Tunel* tunel, int andar, Elevador* e) {
     if (tunel->e1->andar == andar && tunel->e1->nome != e->nome) {
         return 1;
     } else if (tunel->e2->andar == andar && tunel->e2->nome != e->nome) {
@@ -74,13 +74,13 @@ int conflito(Tunel* tunel, int andar, Elevador* e) {
     return 0;
 }
 
-void resolver_conflito(Tunel* tunel, int andar, Elevador* elevador) {
+void resolver_colisao(Tunel* tunel, int andar, Elevador* elevador) {
     Elevador* conflitado = get_elevador(tunel, andar);
     if (elevador->andar < conflitado->andar) {
-        printf("Subindo %s de %d até %d para evitar conflitos\n", conflitado->nome, conflitado->andar, conflitado->andar + 1);
+        printf("Subindo %s de %d até %d para evitar colisões\n", conflitado->nome, conflitado->andar, conflitado->andar + 1);
         conflitado->andar += 1;
     } else {
-        printf("Descendo %s de %d até %d para evitar conflitos\n", conflitado->nome, conflitado->andar, conflitado->andar - 1);
+        printf("Descendo %s de %d até %d para evitar colisões\n", conflitado->nome, conflitado->andar, conflitado->andar - 1);
         conflitado->andar -= 1;
     }
 }
@@ -130,20 +130,20 @@ void mover_elevador(int* req, Tunel** tuneis) {
     int elevador_num = melhor_elevador(t, andar);
 
     Elevador* elevador = elevador_num == 1 ? t->e1 : (elevador_num == 2 ? t->e2 : t->e3);
-    if (conflito(t, andar, elevador)) {
-        resolver_conflito(t, andar, elevador);
+    if (colisao(t, andar, elevador)) {
+        resolver_colisao(t, andar, elevador);
     }
 
     int gasto = distance(elevador, andar);
 
-    printf("O Elevador mais próximo é o %s que esta no %d andar || tempo de espera é: %d\n\n", elevador->nome, elevador->andar, gasto);
+    printf("O Elevador mais próximo é o %s, com uma distância de %d andares || tempo de espera é: %d\n\n", elevador->nome, gasto, gasto);
     printf("%s indo de %d para %d buscar um cliente\n", elevador->nome, elevador->andar, andar);
     elevador->andar = andar;
 
 
     gasto += distance(elevador, destino);
-    if (conflito(t, destino, elevador)) {
-        resolver_conflito(t, destino, elevador);
+    if (colisao(t, destino, elevador)) {
+        resolver_colisao(t, destino, elevador);
     }
     printf("%s indo de %d para %d deixar alguém || Gasto da operação: %d \n", elevador->nome, elevador->andar, destino, gasto);
     elevador->andar = destino;
