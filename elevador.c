@@ -158,8 +158,7 @@ void mudar_tunel(Tunel** tuneis, int tunel_origem, int tunel_destino, int andar)
     }
 }
 
-int colisao(Tunel* tunel, int andar) {
-
+int colisao(Tunel* tunel, int andar, Elevador* e) {
     
     if (tunel->e1->andar == andar && strcmp(tunel->e1->nome, e->nome) != 0) {
         return 1;
@@ -174,6 +173,7 @@ int colisao(Tunel* tunel, int andar) {
     }
     return 0;
 }
+
 
 
 void resolver_colisao(Tunel* tunel, int andar, Elevador* elevador, Tunel** tuneis) {
@@ -205,9 +205,9 @@ void mover_elevador(int* req, Tunel** tuneis) {
 
     }
 
-    int gasto = distance(elevador, andar);a
+    int gasto = distance(elevador, andar);
     int custo = gasto + distance(elevador, destino);
-    int tempo = (gasto * 2)/ 60
+    int tempo = (gasto * 2)/ 60;
 
     printf("\nO Elevador mais próximo é o %s, com uma distância de %d andares || tempo de espera é: %d min\n\n", elevador->nome, gasto, tempo);
     printf("%s indo de %d para %d buscar um cliente\n", elevador->nome, elevador->andar, andar);
