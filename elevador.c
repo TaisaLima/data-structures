@@ -13,7 +13,16 @@ typedef struct {
     Elevador* e3;
     Elevador* e4;
     Elevador* e5;
-    
+    Elevador* e6;
+    Elevador* e7;
+    Elevador* e8;
+    Elevador* e9;
+    Elevador* e10;
+    Elevador* e11;
+    Elevador* e12;
+    Elevador* e13;
+    Elevador* e14;
+    Elevador* e15;
 } Tunel;
 
 Elevador* criar_elevador(char* nome, int andar) {
@@ -27,14 +36,23 @@ int distance(Elevador* elevador, int andar) {
     return abs(elevador->andar - andar);
 }
 
-Tunel* criar_tunel(Elevador* e1, Elevador* e2, Elevador* e3, Elevador* e4, Elevador* e5) {
+Tunel* criar_tunel(Elevador* e1, Elevador* e2, Elevador* e3, Elevador* e4, Elevador* e5, Elevador* e6, Elevador* e7, Elevador* e8, Elevador* e9, Elevador* e10, Elevador* e11, Elevador* e12, Elevador* e13, Elevador* e14, Elevador* e15) {
     Tunel* tunel = (Tunel*)malloc(sizeof(Tunel));
     tunel->e1 = e1;
     tunel->e2 = e2;
     tunel->e3 = e3;
     tunel->e4 = e4;
     tunel->e5 = e5;
-
+    tunel->e6 = e6;
+    tunel->e7 = e7;
+    tunel->e8 = e8;
+    tunel->e9 = e9;
+    tunel->e10 = e10;
+    tunel->e11 = e11;
+    tunel->e12 = e12;
+    tunel->e13 = e13;
+    tunel->e14 = e14;
+    tunel->e15 = e15;
     return tunel;
 }
 
@@ -42,181 +60,301 @@ int melhor_elevador(Tunel* tunel, int andar) {
     int d1 = distance(tunel->e1, andar);
     int d2 = distance(tunel->e2, andar);
     int d3 = distance(tunel->e3, andar);
-    int melhor = d1 < d2 ? (d1 < d3 ? d1 : d3) : (d2 < d3 ? d2 : d3);
-    if (d1 == melhor) {
-        return 1;
-    } else if (d2 == melhor) {
-        return 2;
-    } else {
-        return 3;
+    int d4 = distance(tunel->e4, andar);
+    int d5 = distance(tunel->e5, andar);
+    int d6 = distance(tunel->e6, andar);
+    int d7 = distance(tunel->e7, andar);
+    int d8 = distance(tunel->e8, andar);
+    int d9 = distance(tunel->e9, andar);
+    int d10 = distance(tunel->e10, andar);
+    int d11 = distance(tunel->e11, andar);
+    int d12 = distance(tunel->e12, andar);
+    int d13 = distance(tunel->e13, andar);
+    int d14 = distance(tunel->e14, andar);
+    int d15 = distance(tunel->e15, andar);
+
+    int min_dist = d1;
+    int melhor_elevador = 1;
+
+    if (d2 < min_dist) {
+        min_dist = d2;
+        melhor_elevador = 2;
     }
+    if (d3 < min_dist) {
+        min_dist = d3;
+        melhor_elevador = 3;
+    }
+    if (d4 < min_dist) {
+        min_dist = d4;
+        melhor_elevador = 4;
+    }
+    if (d5 < min_dist) {
+        min_dist = d5;
+        melhor_elevador = 5;
+    }
+    if (d6 < min_dist) {
+        min_dist = d6;
+        melhor_elevador = 6;
+    }
+    if (d7 < min_dist) {
+        min_dist = d7;
+        melhor_elevador = 7;
+    }
+    if (d8 < min_dist) {
+        min_dist = d8;
+        melhor_elevador = 8;
+    }
+    if (d9 < min_dist) {
+        min_dist = d9;
+        melhor_elevador = 9;
+    }
+    if (d10 < min_dist) {
+        min_dist = d10;
+        melhor_elevador = 10;
+    }
+    if (d11 < min_dist) {
+        min_dist = d11;
+        melhor_elevador = 11;
+    }
+    if (d12 < min_dist) {
+        min_dist = d12;
+        melhor_elevador = 12;
+    }
+    if (d13 < min_dist) {
+        min_dist = d13;
+        melhor_elevador = 13;
+    }
+    if (d14 < min_dist) {
+        min_dist = d14;
+        melhor_elevador = 14;
+    }
+    if (d15 < min_dist) {
+        min_dist = d15;
+        melhor_elevador = 15;
+    }
+
+    return melhor_elevador;
 }
 
-Elevador* get_elevador(Tunel* tunel, int andar) {
-    if (tunel->e1->andar == andar) {
-        return tunel->e1;
-    } else if (tunel->e2->andar == andar) {
-        return tunel->e2;
-    } else if (tunel->e3->andar == andar) {
-        return tunel->e3;
+void mover_elevador(int andar, Tunel* tunel) {
+    int melhor_elev = melhor_elevador(tunel, andar);
+    Elevador* elevador;
+
+    switch (melhor_elev) {
+        case 1:
+            elevador = tunel->e1;
+            break;
+        case 2:
+            elevador = tunel->e2;
+            break;
+        case 3:
+            elevador = tunel->e3;
+            break;
+        case 4:
+            elevador = tunel->e4;
+            break;
+        case 5:
+            elevador = tunel->e5;
+            break;
+        case 6:
+            elevador = tunel->e6;
+            break;
+        case 7:
+            elevador = tunel->e7;
+            break;
+        case 8:
+            elevador = tunel->e8;
+            break;
+        case 9:
+            elevador = tunel->e9;
+            break;
+        case 10:
+            elevador = tunel->e10;
+            break;
+        case 11:
+            elevador = tunel->e11;
+            break;
+        case 12:
+            elevador = tunel->e12;
+            break;
+        case 13:
+            elevador = tunel->e13;
+            break;
+        case 14:
+            elevador = tunel->e14;
+            break;
+        case 15:
+            elevador = tunel->e15;
+            break;
+        default:
+            return;
     }
-    return NULL;
+
+    printf("Movendo %s para o andar %d\n", elevador->nome, andar);
+    elevador->andar = andar;
 }
 
-int colisao(Tunel* tunel, int andar, Elevador* e) {
-    if (tunel->e1->andar == andar && tunel->e1->nome != e->nome) {
-        return 1;
-    } else if (tunel->e2->andar == andar && tunel->e2->nome != e->nome) {
-        return 1;
-    } else if (tunel->e3->andar == andar && tunel->e3->nome != e->nome) {
-        return 1;
-    }
-    return 0;
-}
+void resolver_colisao(int andar, Tunel* tunel) {
+    int melhor_elev = melhor_elevador(tunel, andar);
+    Elevador* elevador;
 
-void resolver_colisao(Tunel* tunel, int andar, Elevador* elevador) {
-    Elevador* conflitado = get_elevador(tunel, andar);
-    if (elevador->andar < conflitado->andar) {
-        printf("Subindo %s de %d até %d para evitar colisões\n", conflitado->nome, conflitado->andar, conflitado->andar + 1);
-        conflitado->andar += 1;
-    } else {
-        printf("Descendo %s de %d até %d para evitar colisões\n", conflitado->nome, conflitado->andar, conflitado->andar - 1);
-        conflitado->andar -= 1;
+    switch (melhor_elev) {
+        case 1:
+            elevador = tunel->e1;
+            break;
+        case 2:
+            elevador = tunel->e2;
+            break;
+        case 3:
+            elevador = tunel->e3;
+            break;
+        case 4:
+            elevador = tunel->e4;
+            break;
+        case 5:
+            elevador = tunel->e5;
+            break;
+        case 6:
+            elevador = tunel->e6;
+            break;
+        case 7:
+            elevador = tunel->e7;
+            break;
+        case 8:
+            elevador = tunel->e8;
+            break;
+        case 9:
+            elevador = tunel->e9;
+            break;
+        case 10:
+            elevador = tunel->e10;
+            break;
+        case 11:
+            elevador = tunel->e11;
+            break;
+        case 12:
+            elevador = tunel->e12;
+            break;
+        case 13:
+            elevador = tunel->e13;
+            break;
+        case 14:
+            elevador = tunel->e14;
+            break;
+        case 15:
+            elevador = tunel->e15;
+            break;
+        default:
+            return;
     }
-}
 
-int melhor_tunel(int andar, Tunel** tuneis) {
-    int i;
-    int melhor = 100000;
-    int tunel = 0;
-    for (i = 0; i < 3; i++) {
-        int d = melhor_elevador(tuneis[i], andar);
-        if (d < melhor) {
-            melhor = d;
-            tunel = i;
+    printf("Colisão detectada no andar %d\n", andar);
+
+    // Verifica se o elevador está no Túnel 1
+    if (elevador == tunel->e1 || elevador == tunel->e2 || elevador == tunel->e3 || elevador == tunel->e4 || elevador == tunel->e5) {
+        // Movendo o elevador para o próximo túnel (Túnel 2)
+        if (melhor_elev < 11) {
+            printf("Movendo %s para o próximo túnel\n", elevador->nome);
+            tunel->e11 = elevador;
+        } else {
+            printf("Movendo %s para o próximo túnel\n", elevador->nome);
+            tunel->e12 = elevador;
         }
     }
-    return tunel;
-}
 
-int prioridade(int* req, Tunel** tuneis) {
-    int d = melhor_tunel(req[0], tuneis);
-    return d;
-}
-
-
-int ler_entrada(int* req) {
-    int atual, destino;
-    printf("Andar da chamada: ");
-    scanf("%d", &atual);
-    if (atual == -1) return 1;
-    printf("Andar de destino: ");
-    scanf("%d", &destino);
-    if (atual > 300 || destino > 300 || atual < 1 || destino < 0) {
-        printf("Erro: Tente novamente\n");
-        ler_entrada(req);
-    }
-    req[0] = atual;
-    req[1] = destino;
-    
-    return 0;
-}
-
-void mover_elevador(int* req, Tunel** tuneis) {
-    int andar = req[0];
-    int destino = req[1];
-    int tunel = melhor_tunel(andar, tuneis);
-    Tunel* t = tuneis[tunel];
-    int elevador_num = melhor_elevador(t, andar);
-
-    Elevador* elevador = elevador_num == 1 ? t->e1 : (elevador_num == 2 ? t->e2 : t->e3);
-    if (colisao(t, andar, elevador)) {
-        resolver_colisao(t, andar, elevador);
+    // Verifica se o elevador está no Túnel 3
+    if (elevador == tunel->e11 || elevador == tunel->e12 || elevador == tunel->e13 || elevador == tunel->e14 || elevador == tunel->e15) {
+        // Movendo o elevador para o próximo túnel (Túnel 2)
+        if (melhor_elev < 6) {
+            printf("Movendo %s para o próximo túnel\n", elevador->nome);
+            tunel->e6 = elevador;
+        } else {
+            printf("Movendo %s para o próximo túnel\n", elevador->nome);
+            tunel->e5 = elevador;
+        }
     }
 
-    int gasto = distance(elevador, andar);
-
-    printf("O Elevador mais próximo é o %s, com uma distância de %d andares || tempo de espera é: %d\n\n", elevador->nome, gasto, gasto);
-    printf("%s indo de %d para %d buscar um cliente\n", elevador->nome, elevador->andar, andar);
     elevador->andar = andar;
+}
 
+void exibir_predio(Tunel* tunel) {
+    for (int i = 0; i < 30; i++) {
+        printf("|");
 
-    gasto += distance(elevador, destino);
-    if (colisao(t, destino, elevador)) {
-        resolver_colisao(t, destino, elevador);
+        for (int j = 1; j <= 15; j++) {
+            if (i == tunel->e1->andar && j == 1) {
+                printf(" E ");
+            } else if (i == tunel->e2->andar && j == 2) {
+                printf(" E ");
+            } else if (i == tunel->e3->andar && j == 3) {
+                printf(" E ");
+            } else if (i == tunel->e4->andar && j == 4) {
+                printf(" E ");
+            } else if (i == tunel->e5->andar && j == 5) {
+                printf(" E ");
+            } else if (i == tunel->e6->andar && j == 6) {
+                printf(" E ");
+            } else if (i == tunel->e7->andar && j == 7) {
+                printf(" E ");
+            } else if (i == tunel->e8->andar && j == 8) {
+                printf(" E ");
+            } else if (i == tunel->e9->andar && j == 9) {
+                printf(" E ");
+            } else if (i == tunel->e10->andar && j == 10) {
+                printf(" E ");
+            } else if (i == tunel->e11->andar && j == 11) {
+                printf(" E ");
+            } else if (i == tunel->e12->andar && j == 12) {
+                printf(" E ");
+            } else if (i == tunel->e13->andar && j == 13) {
+                printf(" E ");
+            } else if (i == tunel->e14->andar && j == 14) {
+                printf(" E ");
+            } else if (i == tunel->e15->andar && j == 15) {
+                printf(" E ");
+            } else {
+                printf("   ");
+            }
+        }
+
+        printf("|\n");
     }
-    printf("%s indo de %d para %d deixar alguém || Gasto da operação: %d \n", elevador->nome, elevador->andar, destino, gasto);
-    elevador->andar = destino;
-    printf("\n------------------------------\n");
 }
 
 int main() {
-    
-    int opt = 0; 
-    Elevador* e1 = criar_elevador("Elevador A1", 1);
-    Elevador* e2 = criar_elevador("Elevador B1", 150);
-    Elevador* e3 = criar_elevador("Elevador C1", 300);
-    Elevador* e4 = criar_elevador("Elevador D1", 200);
-    Elevador* e5 = criar_elevador("Elevador E1", 100);
-    Tunel* t1 = criar_tunel(e1, e2, e3, e4, e5);
+    Elevador* e1 = criar_elevador("E1", 0);
+    Elevador* e2 = criar_elevador("E2", 0);
+    Elevador* e3 = criar_elevador("E3", 0);
+    Elevador* e4 = criar_elevador("E4", 0);
+    Elevador* e5 = criar_elevador("E5", 0);
+    Elevador* e6 = criar_elevador("E6", 29);
+    Elevador* e7 = criar_elevador("E7", 29);
+    Elevador* e8 = criar_elevador("E8", 29);
+    Elevador* e9 = criar_elevador("E9", 29);
+    Elevador* e10 = criar_elevador("E10", 29);
+    Elevador* e11 = criar_elevador("E11", 0);
+    Elevador* e12 = criar_elevador("E12", 0);
+    Elevador* e13 = criar_elevador("E13", 0);
+    Elevador* e14 = criar_elevador("E14", 0);
+    Elevador* e15 = criar_elevador("E15", 0);
 
-    e1 = criar_elevador("Elevador A2", 2);
-    e2 = criar_elevador("Elevador B2", 250);
-    e3 = criar_elevador("Elevador C2", 200);
-    e4 = criar_elevador("Elevador D2", 100);
-    e5 = criar_elevador("Elevador E2", 300);
-    Tunel* t2 = criar_tunel(e1, e2, e3, e4, e5);
+    Tunel* tunel = criar_tunel(e1, e2, e3, e4, e5, e6, e7, e8, e9, e10, e11, e12, e13, e14, e15);
 
+    for (int i = 0; i < 30; i++) {
+        int andar = i;
 
-    e1 = criar_elevador("Elevador A3", 1);
-    e2 = criar_elevador("Elevador B3", 150);
-    e3 = criar_elevador("Elevador C3", 300);
-    e4 = criar_elevador("Elevador D3", 100);
-    e5 = criar_elevador("Elevador E3", 200);
-    Tunel* t3 = criar_tunel(e1, e2, e3, e4, e5);
-
-
-    Tunel** tuneis = (Tunel**)malloc(3 * sizeof(Tunel*));
-    tuneis[0] = t1;
-    tuneis[1] = t2;
-    tuneis[2] = t3;
-
-    int reqs[100][2]; // Fila de prioridade
-    int req_count = 0;
-    
-    while (1){
-        
-        while (1) {
-            
-        printf("\nTem chamada?\n[1] - SIM\n[2] - NÃO\n[-1] - ENCERRAR\n\n");
-        scanf("%d", &opt);
-        if (opt == 1) {
-                
-            ler_entrada(reqs[req_count]);
-            req_count++;
-         }
-         else if (opt == 2) {break;}
-         else if (opt == -1) {return 0;}
+        // Movendo os elevadores
+        if (andar % 10 == 0) {
+            mover_elevador(andar, tunel);
         }
-    
-        int i, j;
-        for (i = 0; i < req_count - 1; i++) {
-            for (j = i + 1; j < req_count; j++) {
-                if (prioridade(reqs[i], tuneis) > prioridade(reqs[j], tuneis)) {
-                    int temp[2];
-                    temp[0] = reqs[i][0];
-                    temp[1] = reqs[i][1];
-                    reqs[i][0] = reqs[j][0];
-                    reqs[i][1] = reqs[j][1];
-                    reqs[j][0] = temp[0];
-                    reqs[j][1] = temp[1];
-                }
-            }
+
+        // Verificando colisões
+        if (andar == 10 || andar == 20) {
+            resolver_colisao(andar, tunel);
         }
-    
-        for (i = 0; i < req_count; i++) {
-            mover_elevador(reqs[i], tuneis);
-        }
+
+        // Exibindo o estado atual do prédio
+        exibir_predio(tunel);
     }
 
     return 0;
